@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポンタの母 | 有料マガジン「私が先に挑戦しておきました」</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --blue-mist:    #dff0fa;
+      --blue-sky:     #a8d8f0;
+      --blue-nordic:  #2bafd4;   /* 信頼感のある鮮やかブルー */
+      --blue-deep:    #1a7fa8;   /* リッチな深みブルー */
+      --blue-slate:   #1a5276;   /* 深紺アクセント */
+      --warm-sand:    #f8f3ec;
+      --warm-cream:   #fdfaf5;
+      --warm-beige:   #ede8df;
+      --warm-gold:    #c49a2e;   /* 参照バナーの深みゴールド */
+      --ribbon-red:   #e05a4f;
+      --text-dark:    #2c3e50;   /* 深紺（視認性劇的改善） */
+      --text-mid:     #3d5166;   /* 締まった中間色 */
+      --text-light:   #6d8499;
+      --white:        #ffffff;
+      --shadow-blue:  rgba(26,127,168,0.18);
+      --font-serif:   'Noto Serif JP', serif;
+      --font-sans:    'Noto Sans JP', sans-serif;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-serif);
+      color: var(--text-dark);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ===== CLOUD DIVIDER ===== */
+    .cloud-divider {
+      position: relative;
+      height: 90px;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .cloud-divider svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    .section-label {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.38em;
+      color: var(--blue-nordic);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+      line-height: 1.9;
+    }
+
+    /* ===== FLOATING CHARACTER ANIMATION ===== */
+    @keyframes float-nav-char {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-5px); }
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--blue-sky) 0%, var(--blue-mist) 55%, #f0f8ff 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 80px 24px 100px;
+    }
+
+    /* 花びら */
+    .petal {
+      position: absolute;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.45; }
+      90%  { opacity: 0.25; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* バナー画像（主役） */
+    .hero-banner-wrap {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 40px;
+    }
+    .hero-banner {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 8px 40px rgba(60, 100, 140, 0.10), 0 2px 8px rgba(60, 100, 140, 0.07);
+    }
+
+    /* noteボタン */
+    .hero-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 44px;
+      background: var(--white);
+      color: var(--ribbon-red);
+      border: 1.5px solid rgba(224, 90, 79, 0.5);
+      border-radius: 50px;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      transition: background 0.28s ease, color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+    .hero-cta-btn:hover {
+      background: var(--ribbon-red);
+      color: var(--white);
+      border-color: var(--ribbon-red);
+      box-shadow: 0 6px 24px rgba(224, 90, 79, 0.22);
+    }
+    .hero-cta-btn-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      background: currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      color: var(--white);
+      transition: color 0.28s ease;
+    }
+    /* ホバー時はアイコン背景を白にして文字を赤に */
+    .hero-cta-btn:hover .hero-cta-btn-icon {
+      background: var(--white);
+      color: var(--ribbon-red);
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
+      color: #7aaabb;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #7aaabb, transparent);
+      animation: scroll-pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* ===== SECTION: 想い（共感の物語） ===== */
+    #omoi {
+      padding: 100px 6vw;
+      background: var(--white);
+      position: relative;
+    }
+    .omoi-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .omoi-inner .section-label { text-align: center; }
+    .omoi-inner .section-title { text-align: center; }
+
+    .omoi-body {
+      font-family: var(--font-sans);
+      font-size: clamp(0.88rem, 1.8vw, 1rem);
+      font-weight: 300;
+      line-height: 2.8;
+      letter-spacing: 0.08em;
+      color: var(--text-mid);
+      text-align: left;
+    }
+    .omoi-body p {
+      margin-bottom: 1.8em;
+    }
+    .omoi-body p:last-child { margin-bottom: 0; }
+    .omoi-accent {
+      display: block;
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      font-weight: 500;
+      color: var(--blue-slate);
+      letter-spacing: 0.1em;
+      border-left: 4px solid var(--blue-nordic);
+      padding-left: 22px;
+      margin: 56px 0;
+      line-height: 2.2;
+    }
+
+    /* ===== SECTION: 3本柱（SERVICES）- 画像付きZ型 ===== */
+    #pillars {
+      padding: 100px 6vw;
+      background: var(--blue-mist);
+      position: relative;
+    }
+    .pillars-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .pillars-header .section-label { text-align: center; }
+    .pillars-header .section-title { text-align: center; }
+
+    /* Z型レイアウト：交互に左右 */
+    .pillar-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      max-width: 960px;
+      margin: 0 auto 100px;
+      align-items: center;
+    }
+    .pillar-item:last-child { margin-bottom: 0; }
+
+    /* reverse = 画像が左、テキストが右 */
+    .pillar-item.reverse .pillar-img-wrap { order: 1; }
+    .pillar-item.reverse .pillar-text     { order: 2; }
+
+    .pillar-img-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 14px 50px rgba(90,154,181,0.22);
+    }
+    .pillar-img-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      transition: transform 0.55s ease;
+      mix-blend-mode: multiply;
+    }
+    .pillar-img-wrap:hover img { transform: scale(1.03); }
+
+    .pillar-num-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(6px);
+      font-family: var(--font-sans);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--blue-deep);
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .pillar-text { }
+    .pillar-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      color: var(--blue-deep);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .pillar-num {
+      font-family: var(--font-sans);
+      font-size: 4.5rem;
+      font-weight: 300;
+      color: rgba(43,175,212,0.22);
+      line-height: 1;
+      margin-bottom: -8px;
+    }
+    .pillar-title {
+      font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--text-dark);
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+    .pillar-title span {
+      font-weight: 500;
+      color: var(--blue-slate);
+    }
+    .pillar-body {
+      font-family: var(--font-sans);
+      font-size: clamp(0.84rem, 1.6vw, 0.96rem);
+      font-weight: 300;
+      line-height: 2.8;
+      letter-spacing: 0.06em;
+      color: var(--text-mid);
+    }
+
+    /* Kindle 強調ボックス */
+    .kindle-note {
+      margin-top: 24px;
+      padding: 18px 22px;
+      background: rgba(43,175,212,0.08);
+      border-left: 4px solid var(--blue-nordic);
+      border-radius: 0 12px 12px 0;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 400;
+      line-height: 2.2;
+      letter-spacing: 0.06em;
+      color: var(--blue-slate);
+    }
+
+    /* ===== SECTION: 制作実績（WORKS） ===== */
+    #works {
+      padding: 100px 6vw;
+      background: var(--warm-cream);
+      position: relative;
+    }
+    .works-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .works-header .section-label { text-align: center; }
+    .works-header .section-title { text-align: center; }
+    .works-intro {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    /* Z型 実績レイアウト */
+    .work-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      max-width: 960px;
+      margin: 0 auto 88px;
+      align-items: center;
+    }
+    .work-item:last-child { margin-bottom: 0; }
+    .work-item.reverse .work-caption  { order: 1; }
+    .work-item.reverse .work-img-wrap { order: 2; }
+
+    .work-img-wrap {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,127,168,0.20);
+      height: 380px;
+      background: #e8f6fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .work-img-wrap img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 18px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      transition: transform 0.5s ease;
+    }
+    .work-img-wrap:hover img { transform: scale(1.03); }
+
+    .work-caption { }
+    .work-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--blue-deep);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .work-title {
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--text-dark);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .work-desc {
+      font-family: var(--font-sans);
+      font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+      font-weight: 300;
+      line-height: 2.6;
+      letter-spacing: 0.06em;
+      color: var(--text-mid);
+    }
+
+    /* Kindle 実績：フル幅ブロック */
+    .work-item-kindle {
+      max-width: 960px;
+      margin: 0 auto 88px;
+      padding: 40px 48px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(90,154,181,0.12);
+    }
+    .work-item-kindle .work-tag { display: block; margin-bottom: 12px; }
+    .work-item-kindle .work-title { margin-bottom: 12px; }
+    .work-item-kindle .work-desc { margin-bottom: 24px; }
+
+    /* Kindle 実績：3枚タイル */
+    .kindle-tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .kindle-tiles .tile-img {
+      width: 100%;
+      height: 260px;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 0 6px 20px rgba(90,154,181,0.18);
+      transition: transform 0.4s ease;
+      object-fit: contain;
+      background: var(--blue-mist);
+      mix-blend-mode: multiply;
+    }
+    .kindle-tiles .tile-img:hover { transform: scale(1.05); }
+
+    @media (max-width: 720px) {
+      .work-item-kindle { padding: 28px 20px; }
+    }
+
+    /* ===== SECTION: CTA ===== */
+    #cta {
+      padding: 130px 24px;
+      background: linear-gradient(155deg, var(--blue-nordic) 0%, var(--blue-sky) 50%, var(--blue-mist) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 70%);
+    }
+    #cta::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    }
+    .cta-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .cta-catch {
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      line-height: 1.9;
+      color: var(--white);
+      text-shadow: 0 2px 16px rgba(60,120,160,0.2);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .cta-sub {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .btn-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 52px;
+      background: var(--white);
+      color: var(--blue-slate);
+      border-radius: 50px;
+      font-family: var(--font-serif);
+      font-size: 0.98rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      box-shadow: 0 8px 32px rgba(60,120,160,0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    .btn-note:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 16px 44px rgba(60,120,160,0.35);
+    }
+    .btn-note-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--blue-nordic), var(--blue-deep));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      letter-spacing: 0;
+      flex-shrink: 0;
+    }
+    .cta-note {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.6);
+      margin-top: 20px;
+      position: relative;
+    }
+
+    /* ===== NOTICE BAR ===== */
+    .notice-bar {
+      background: #f5f0e8;
+      color: #4a4040;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.46em;
+      text-align: center;
+      padding: 15px 24px;
+      position: relative;
+      z-index: 100;
+    }
+    .notice-bar a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    .notice-bar a:hover { opacity: 0.65; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 52px 24px;
+      background: #2e3a4a;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 720px) {
+      .hero-visual { flex-direction: column; gap: 20px; }
+      .hero-nav-char { width: 100px; align-self: center; }
+
+      .pillar-item,
+      .pillar-item.reverse .pillar-img-wrap,
+      .pillar-item.reverse .pillar-text {
+        grid-template-columns: 1fr;
+        order: unset;
+      }
+      .pillar-item { gap: 32px; }
+      .pillar-item.reverse .pillar-img-wrap { order: unset; }
+      .pillar-item.reverse .pillar-text     { order: unset; }
+
+      .work-item,
+      .work-item.reverse .work-caption,
+      .work-item.reverse .work-img-wrap {
+        grid-template-columns: 1fr;
+        order: unset;
+      }
+      .work-item.reverse .work-caption  { order: unset; }
+      .work-item.reverse .work-img-wrap { order: unset; }
+
+      .kindle-tiles { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+
+      .omoi-accent { border-left: none; border-top: 3px solid var(--blue-nordic); padding: 16px 0 0; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NOTICE BAR ===== -->
+<div class="notice-bar">
+  <a href="https://note.com/pontanohaha/m/me6c991363ada" target="_blank" rel="noopener noreferrer">
+    note有料マガジン始めました
+  </a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div id="petals"></div>
+
+  <div class="hero-content">
+
+    <!-- バナー画像（主役） -->
+    <div class="hero-banner-wrap reveal">
+      <img
+        src="claude-work/hero-banner.png"
+        alt="ポンタの母 有料マガジン"
+        class="hero-banner"
+      >
+    </div>
+
+    <!-- noteへのCTAボタン -->
+    <a
+      href="https://note.com/pontanohaha/m/me6c991363ada"
+      class="hero-cta-btn reveal"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="hero-cta-btn-icon">n</span>
+      noteでマガジンを読む
+    </a>
+
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- 雲の境界線 -->
+<div class="cloud-divider">
+  <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,90 L0,45 Q80,12 160,38 Q240,60 320,28 Q400,2 480,32 Q560,58 640,22 Q720,2 800,30 Q880,55 960,24 Q1040,2 1120,34 Q1200,60 1280,32 Q1360,12 1440,40 L1440,90 Z"
+          fill="#b8ddf0"/>
+    <path d="M0,90 L0,56 Q100,24 200,48 Q300,68 400,38 Q500,12 600,44 Q700,68 800,40 Q900,16 1000,46 Q1100,70 1200,48 Q1320,24 1440,52 L1440,90 Z"
+          fill="#ffffff"/>
+  </svg>
+</div>
+
+<!-- ===== OMOI: 想いセクション ===== -->
+<section id="omoi">
+  <div class="omoi-inner">
+    <span class="section-label reveal">story</span>
+    <h2 class="section-title reveal">私が先に、<br>たくさん転んでおきました。</h2>
+
+    <blockquote class="omoi-accent reveal">
+      「挑戦の記録」を、そのままあなたに届けます。
+    </blockquote>
+
+    <div class="omoi-body reveal">
+      <p>挑戦するって、怖いですよね。<br>
+      できるかもしれない。できないかもしれない。『できなかったらどうしよう』<br>
+      そんな不安は、挑戦する限り、必ずついてきます。</p>
+
+      <p>でも、成功は挑戦し続けた人しか掴めません。<br>
+      私はあなたより少し先に、Canvaと、AIと、SNSと、図解を学びました。</p>
+
+      <p>そのおかげで、できることが１年前よりずっと増えました。<br>
+      そのおかげで、いろんな場所で、いろんな人と繋がることができました。</p>
+
+      <p>あなたも、同じです。<br>
+      先に挑戦した人は、誰よりも先に失敗し、誰よりも先に『チャンス』を掴むことができるから。</p>
+
+      <p>私が先に、たくさん転んでおきました。<br>
+      その『挑戦の記録』を、あなたにそのまま届けます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 雲の境界線（反転） -->
+<div class="cloud-divider" style="transform: scaleY(-1); margin-top: -1px;">
+  <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,90 L0,45 Q80,12 160,38 Q240,60 320,28 Q400,2 480,32 Q560,58 640,22 Q720,2 800,30 Q880,55 960,24 Q1040,2 1120,34 Q1200,60 1280,32 Q1360,12 1440,40 L1440,90 Z"
+          fill="#e8f4fc"/>
+    <path d="M0,90 L0,56 Q100,24 200,48 Q300,68 400,38 Q500,12 600,44 Q700,68 800,40 Q900,16 1000,46 Q1100,70 1200,48 Q1320,24 1440,52 L1440,90 Z"
+          fill="#ffffff"/>
+  </svg>
+</div>
+
+<!-- ===== PILLARS: 3本柱（Z型 × 実画像） ===== -->
+<section id="pillars">
+  <div class="pillars-header">
+    <span class="section-label reveal">services</span>
+    <h2 class="section-title reveal">マガジンの３本柱</h2>
+  </div>
+
+  <!-- 01: 図解（設計）— 左テキスト・右画像 -->
+  <div class="pillar-item reveal-left">
+    <div class="pillar-text">
+      <div class="pillar-num">01</div>
+      <span class="pillar-tag">zukai — design</span>
+      <h3 class="pillar-title">図解：伝わるための<span>「設計」</span></h3>
+      <p class="pillar-body">難しいことも、バラバラな想いも。AIと図解の力で、誰にでも『伝わるカタチ』へと鮮やかに変換し、挑戦の土台を作ります。構造を見える化することで、読み手の理解がぐっと深まります。</p>
+    </div>
+    <div class="pillar-img-wrap">
+      <span class="pillar-num-tag">01 — zukai</span>
+      <img src="claude-work/note-zukai2.png" alt="図解サンプル">
+    </div>
+  </div>
+
+  <!-- 02: SNS（発信）— 右テキスト・左画像（Z型） -->
+  <div class="pillar-item reverse reveal-right">
+    <div class="pillar-img-wrap">
+      <span class="pillar-num-tag">02 — sns</span>
+      <img src="claude-work/karu-seru.png" alt="SNSカルーセル図解">
+    </div>
+    <div class="pillar-text">
+      <div class="pillar-num">02</div>
+      <span class="pillar-tag">sns — carousel</span>
+      <h3 class="pillar-title">発信：心を動かす<span>「SNS」</span></h3>
+      <p class="pillar-body">SNSでパッと目に留まり、一瞬で伝わる。整えた図解を『伸びる』発信へと乗せて、あなたの想いを必要とする誰かへと繋いでいきます。スワイプが止まる、カルーセル設計を一緒に。</p>
+    </div>
+  </div>
+
+  <!-- 03: Kindle（資産）— 左テキスト・右画像（Z型） -->
+  <div class="pillar-item reveal-left">
+    <div class="pillar-text">
+      <div class="pillar-num">03</div>
+      <span class="pillar-tag">kindle — publishing</span>
+      <h3 class="pillar-title">Kindle：価値を残す<span>「出版」</span></h3>
+      <p class="pillar-body">日々の挑戦や、大切な物語。消えてしまいそうな『今』の記録を一冊の本にまとめ、あなたの資産として、永遠に形に残します。</p>
+      <div class="kindle-note">
+        表紙だけではなく、読者の満足度を高める<br>
+        『本の中身の図解』を設計します。<br>
+        内容が伝わる、読み続けてもらえる一冊へ。
+      </div>
+    </div>
+    <div class="pillar-img-wrap">
+      <span class="pillar-num-tag">03 — kindle</span>
+      <img src="claude-work/yumezukai.png" alt="Kindle図解サンプル">
+    </div>
+  </div>
+</section>
+
+<!-- 雲の境界線 -->
+<div class="cloud-divider">
+  <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
+          fill="#e8f4fc"/>
+    <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
+          fill="#ffffff"/>
+  </svg>
+</div>
+
+<!-- ===== WORKS: 制作実績 ===== -->
+<section id="works">
+  <div class="works-header">
+    <span class="section-label reveal">works</span>
+    <h2 class="section-title reveal">制作実績</h2>
+  </div>
+  <p class="works-intro reveal">これまで制作してきた図解・デザインの一例です</p>
+
+  <!-- 01: SNS カルーセル — 左画像・右テキスト -->
+  <div class="work-item reveal-left">
+    <div class="work-img-wrap">
+      <img src="claude-work/karu-seru1.png" alt="SNSカルーセル図解実例">
+    </div>
+    <div class="work-caption">
+      <span class="work-tag">01 — sns carousel</span>
+      <h3 class="work-title">SNSカルーセル図解</h3>
+      <p class="work-desc">スクロールが止まる、伝わるカルーセル投稿。図解の設計から仕上げまで、AIと一緒に作り上げた実例です。</p>
+    </div>
+  </div>
+
+  <!-- 02: Kindle 中身の図解（3枚タイル）— フル幅ブロック -->
+  <div class="work-item-kindle reveal-right">
+    <span class="work-tag">02 — kindle inside</span>
+    <h3 class="work-title">Kindle本の中身の図解実例</h3>
+    <p class="work-desc">表紙だけでなく、本の中身も図解で設計。読者が「分かった！」と感じる構成を、ページごとに丁寧に作り込みます。</p>
+    <div class="kindle-tiles">
+      <img src="claude-work/yumezukai1.png" alt="Kindle図解実例1" class="tile-img">
+      <img src="claude-work/yumezukai2.png" alt="Kindle図解実例2" class="tile-img">
+      <img src="claude-work/yumezukai3.png" alt="Kindle図解実例3" class="tile-img">
+    </div>
+  </div>
+
+  <!-- 03: note 図解 — 左画像・右テキスト（Z型） -->
+  <div class="work-item reveal-left">
+    <div class="work-img-wrap">
+      <img src="claude-work/note-zukai1.png" alt="note文章用図解実例">
+    </div>
+    <div class="work-caption">
+      <span class="work-tag">03 — note zukai</span>
+      <h3 class="work-title">note文章用図解</h3>
+      <p class="work-desc">言葉だけでは伝わりにくい内容を、図解でひと目で伝える。noteの記事に添えることで、読まれる投稿へと変わります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 雲の境界線 -->
+<div class="cloud-divider">
+  <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
+          fill="var(--blue-nordic)"/>
+    <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
+          fill="var(--warm-cream)"/>
+  </svg>
+</div>
+
+<!-- ===== CTA ===== -->
+<section id="cta">
+  <p class="cta-badge reveal">MAGAZINE</p>
+  <p class="cta-catch reveal">
+    私が先に挑戦した記録を、<br>あなたに届けます。
+  </p>
+  <p class="cta-sub reveal">
+    図解・発信・Kindle ── すべてのチャレンジログが読み放題
+  </p>
+  <a
+    href="https://note.com/pontanohaha/m/me6c991363ada"
+    class="btn-note reveal"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="btn-note-icon">n</span>
+    noteでマガジンを購読する
+  </a>
+  <p class="cta-note reveal">※ noteのポンタの母マガジンページへ遷移します</p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>© 2026 ポンタの母 | 図解クリエイター</p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+  // ---- 花びら生成 ----
+  const container = document.getElementById('petals');
+  const petalColors = [
+    'rgba(184,221,240,0.6)',
+    'rgba(232,244,252,0.7)',
+    'rgba(237,232,223,0.5)',
+    'rgba(126,200,227,0.4)',
+    'rgba(255,255,255,0.5)'
+  ];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.classList.add('petal');
+    const size = 6 + Math.random() * 10;
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: ${-20 - Math.random() * 20}px;
+      width: ${size}px;
+      height: ${size * 1.4}px;
+      background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
+      animation-duration: ${8 + Math.random() * 12}s;
+      animation-delay: ${Math.random() * 10}s;
+      transform-origin: center;
+      border-radius: ${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
+    `;
+    container.appendChild(p);
+  }
+
+  // ---- スクロール Reveal ----
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.10 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+    .forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
