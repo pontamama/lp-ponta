@@ -266,10 +266,10 @@
       line-height: 2.2;
     }
 
-    /* ===== SECTION: 3本柱（SERVICES）- 画像付きZ型 ===== */
+    /* ===== SECTION: 3本柱（SERVICES）- 縦一列レイアウト ===== */
     #pillars {
       padding: 100px 6vw;
-      background: var(--blue-mist);
+      background: #ffffff;
       position: relative;
     }
     .pillars-header {
@@ -279,26 +279,26 @@
     .pillars-header .section-label { text-align: center; }
     .pillars-header .section-title { text-align: center; }
 
-    /* Z型レイアウト：交互に左右 */
+    /* 縦一列：ラベル→タイトル→本文→画像 */
     .pillar-item {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      max-width: 960px;
-      margin: 0 auto 100px;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      max-width: 720px;
+      margin: 0 auto 96px;
+      gap: 0;
     }
     .pillar-item:last-child { margin-bottom: 0; }
 
-    /* reverse = 画像が左、テキストが右 */
-    .pillar-item.reverse .pillar-img-wrap { order: 1; }
-    .pillar-item.reverse .pillar-text     { order: 2; }
+    /* 全パターン共通：テキスト→画像の順 */
+    .pillar-item .pillar-text     { order: 1; }
+    .pillar-item .pillar-img-wrap { order: 2; }
 
     .pillar-img-wrap {
-      position: relative;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 14px 50px rgba(90,154,181,0.22);
+      box-shadow: 0 14px 50px rgba(90,154,181,0.18);
+      background: #ffffff;
+      margin-top: 32px;
     }
     .pillar-img-wrap img {
       width: 100%;
@@ -313,31 +313,39 @@
       display: none;
     }
 
-    .pillar-text { }
+    .pillar-text {
+      display: flex;
+      flex-direction: column;
+    }
     .pillar-tag {
-      display: inline-block;
+      display: block;
       font-family: var(--font-sans);
       font-size: 0.68rem;
       letter-spacing: 0.3em;
       color: var(--blue-deep);
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      order: 2;
     }
     .pillar-num {
+      display: block;
       font-family: var(--font-sans);
-      font-size: 4.5rem;
+      font-size: 3.6rem;
       font-weight: 300;
       color: rgba(43,175,212,0.22);
       line-height: 1;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      order: 1;
     }
     .pillar-title {
+      display: block;
       font-size: clamp(1.2rem, 2.5vw, 1.65rem);
       font-weight: 300;
       letter-spacing: 0.12em;
       color: var(--text-dark);
       line-height: 1.9;
       margin-bottom: 20px;
+      order: 3;
     }
     .pillar-title span {
       font-weight: 500;
@@ -347,9 +355,10 @@
       font-family: var(--font-sans);
       font-size: clamp(0.84rem, 1.6vw, 0.96rem);
       font-weight: 300;
-      line-height: 2.8;
+      line-height: 1.9;
       letter-spacing: 0.06em;
       color: var(--text-mid);
+      order: 4;
     }
 
     /* Kindle 強調ボックス */
@@ -362,15 +371,16 @@
       font-family: var(--font-sans);
       font-size: 0.88rem;
       font-weight: 400;
-      line-height: 2.2;
+      line-height: 1.9;
       letter-spacing: 0.06em;
       color: var(--blue-slate);
+      order: 5;
     }
 
     /* ===== SECTION: 制作実績（WORKS） ===== */
     #works {
       padding: 100px 6vw;
-      background: var(--warm-cream);
+      background: #ffffff;
       position: relative;
     }
     .works-header {
@@ -389,33 +399,33 @@
       margin-bottom: 80px;
     }
 
-    /* Z型 実績レイアウト */
+    /* 縦一列：ラベル→タイトル→本文→画像 */
     .work-item {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      max-width: 720px;
       margin: 0 auto 88px;
-      align-items: center;
     }
     .work-item:last-child { margin-bottom: 0; }
-    .work-item.reverse .work-caption  { order: 1; }
-    .work-item.reverse .work-img-wrap { order: 2; }
+
+    /* 全パターン共通：テキスト→画像の順 */
+    .work-item .work-caption  { order: 1; }
+    .work-item .work-img-wrap { order: 2; margin-top: 28px; }
 
     .work-img-wrap {
-      position: relative;
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 12px 40px rgba(26,127,168,0.20);
-      height: 380px;
-      background: #e8f6fb;
+      box-shadow: 0 12px 40px rgba(26,127,168,0.15);
+      height: auto;
+      min-height: 260px;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .work-img-wrap img {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: block;
       border-radius: 18px;
       object-fit: contain;
@@ -426,7 +436,7 @@
 
     .work-caption { }
     .work-tag {
-      display: inline-block;
+      display: block;
       font-family: var(--font-sans);
       font-size: 0.68rem;
       letter-spacing: 0.28em;
@@ -446,23 +456,23 @@
       font-family: var(--font-sans);
       font-size: clamp(0.82rem, 1.5vw, 0.92rem);
       font-weight: 300;
-      line-height: 2.6;
+      line-height: 1.9;
       letter-spacing: 0.06em;
       color: var(--text-mid);
     }
 
-    /* Kindle 実績：フル幅ブロック */
+    /* Kindle 実績：縦一列ブロック */
     .work-item-kindle {
-      max-width: 960px;
+      max-width: 720px;
       margin: 0 auto 88px;
-      padding: 40px 48px;
-      background: rgba(255,255,255,0.7);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(90,154,181,0.12);
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
     }
     .work-item-kindle .work-tag { display: block; margin-bottom: 12px; }
     .work-item-kindle .work-title { margin-bottom: 12px; }
-    .work-item-kindle .work-desc { margin-bottom: 24px; }
+    .work-item-kindle .work-desc { margin-bottom: 32px; }
 
     /* Kindle 実績：3枚タイル */
     .kindle-tiles {
@@ -472,13 +482,13 @@
     }
     .kindle-tiles .tile-img {
       width: 100%;
-      height: 260px;
+      height: auto;
       border-radius: 12px;
       display: block;
-      box-shadow: 0 6px 20px rgba(90,154,181,0.18);
+      box-shadow: 0 6px 20px rgba(90,154,181,0.14);
       transition: transform 0.4s ease;
       object-fit: contain;
-      background: var(--blue-mist);
+      background: #ffffff;
       mix-blend-mode: multiply;
     }
     .kindle-tiles .tile-img:hover { transform: scale(1.05); }
@@ -616,12 +626,6 @@
 
     /* ===== RESPONSIVE ===== */
 
-    /* ── タブレット（〜900px） ── */
-    @media (max-width: 900px) {
-      .pillar-item  { gap: 40px; }
-      .work-item    { gap: 36px; }
-    }
-
     /* ── スマートフォン（〜720px） ── */
     @media (max-width: 720px) {
 
@@ -646,11 +650,14 @@
       }
 
       /* 共通セクション余白 */
-      #omoi, #pillars, #works { padding: 64px 5vw; }
-      #cta { padding: 72px 20px; }
+      #omoi, #pillars, #works { padding: 56px 22px; }
+      #cta { padding: 72px 22px; }
 
-      /* section title */
-      .section-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+      /* セクションタイトル */
+      .section-title {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+        word-break: keep-all;
+      }
 
       /* 想いセクション */
       .omoi-accent {
@@ -662,58 +669,41 @@
       }
       .omoi-body {
         line-height: 1.9;
-        padding: 0 4px;
+        padding: 0 2px;
       }
+      .omoi-body p { margin-bottom: 1.4em; }
+
       /* PCの <br> をスマホでは非表示に */
-      .omoi-body br { display: none; }
-      .cta-catch br { display: none; }
+      .omoi-body br,
+      .cta-catch br,
+      .kindle-note br { display: none; }
 
-      /* 意味の塊で折り返す（ちぎれ防止） */
-      .pillar-title span,
-      .work-title,
-      .omoi-body p { display: inline; }
-      .section-title { word-break: keep-all; }
-
-      /* ── 3本柱：2カラム → 1カラム ── */
+      /* 3本柱：スマホ余白 */
       .pillar-item {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        margin-bottom: 56px;
+        margin-bottom: 64px;
+        max-width: 100%;
       }
-      /* 全パターン共通：テキスト→画像の順に固定 */
-      .pillar-item .pillar-text     { order: 1; }
-      .pillar-item .pillar-img-wrap { order: 2; }
-      .pillar-item.reverse .pillar-text     { order: 1; }
-      .pillar-item.reverse .pillar-img-wrap { order: 2; }
-
+      .pillar-item .pillar-img-wrap { margin-top: 24px; }
       .pillars-header { margin-bottom: 40px; }
-      .pillar-num { font-size: 3rem; }
+      .pillar-num { font-size: 2.8rem; }
       .pillar-title { font-size: clamp(1.1rem, 4.5vw, 1.4rem); }
+      .pillar-body { line-height: 1.85; }
 
-      /* ── 制作実績：2カラム → 1カラム ── */
+      /* 制作実績：スマホ余白 */
       .work-item {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin-bottom: 52px;
+        margin-bottom: 56px;
+        max-width: 100%;
       }
-      /* 全パターン共通：テキスト（caption）→画像の順に固定 */
-      .work-item .work-caption  { order: 1; }
-      .work-item .work-img-wrap { order: 2; }
-      .work-item.reverse .work-caption  { order: 1; }
-      .work-item.reverse .work-img-wrap { order: 2; }
-
-      /* 画像枠の高さをスマホ用に縮小 */
-      .work-img-wrap { height: 220px; }
-
+      .work-item .work-img-wrap { margin-top: 20px; }
       .works-intro { margin-bottom: 40px; }
+      .work-desc { line-height: 1.85; }
 
       /* Kindleタイル：3カラム → 1カラム */
       .kindle-tiles {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 16px;
       }
-      .kindle-tiles .tile-img { height: 200px; }
-      .work-item-kindle { padding: 24px 16px; }
+      .work-item-kindle { margin-bottom: 56px; max-width: 100%; }
 
       /* CTAボタン */
       .btn-note {
@@ -728,8 +718,8 @@
     @media (max-width: 390px) {
       .notice-bar { letter-spacing: 0.12em; }
       .hero-cta-btn, .btn-note { width: 100%; }
-      .work-img-wrap { height: 180px; }
-      .pillar-num { font-size: 2.4rem; }
+      .pillar-num { font-size: 2.2rem; }
+      #omoi, #pillars, #works { padding: 48px 18px; }
     }
   </style>
 </head>
@@ -816,11 +806,11 @@
   </div>
 </section>
 
-<!-- 雲の境界線（反転） -->
+<!-- 雲の境界線（反転）omoi→pillars（白→白） -->
 <div class="cloud-divider" style="transform: scaleY(-1); margin-top: -1px;">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,90 L0,45 Q80,12 160,38 Q240,60 320,28 Q400,2 480,32 Q560,58 640,22 Q720,2 800,30 Q880,55 960,24 Q1040,2 1120,34 Q1200,60 1280,32 Q1360,12 1440,40 L1440,90 Z"
-          fill="#e8f4fc"/>
+          fill="#dff0fa"/>
     <path d="M0,90 L0,56 Q100,24 200,48 Q300,68 400,38 Q500,12 600,44 Q700,68 800,40 Q900,16 1000,46 Q1100,70 1200,48 Q1320,24 1440,52 L1440,90 Z"
           fill="#ffffff"/>
   </svg>
@@ -881,11 +871,11 @@
   </div>
 </section>
 
-<!-- 雲の境界線 -->
+<!-- 雲の境界線（pillars→works：白→白） -->
 <div class="cloud-divider">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
-          fill="#e8f4fc"/>
+          fill="#dff0fa"/>
     <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
           fill="#ffffff"/>
   </svg>
@@ -936,13 +926,13 @@
   </div>
 </section>
 
-<!-- 雲の境界線 -->
+<!-- 雲の境界線（works→CTA：白→ブルー） -->
 <div class="cloud-divider">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
           fill="var(--blue-nordic)"/>
     <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
-          fill="var(--warm-cream)"/>
+          fill="#ffffff"/>
   </svg>
 </div>
 
