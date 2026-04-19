@@ -269,7 +269,7 @@
     /* ===== SECTION: 3本柱（SERVICES）- 縦一列レイアウト ===== */
     #pillars {
       padding: 100px 6vw;
-      background: #ffffff;
+      background: #f5f9fc;
       position: relative;
     }
     .pillars-header {
@@ -297,7 +297,7 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 14px 50px rgba(90,154,181,0.18);
-      background: #ffffff;
+      background: #f5f9fc;
       margin-top: 32px;
     }
     .pillar-img-wrap img {
@@ -380,7 +380,7 @@
     /* ===== SECTION: 制作実績（WORKS） ===== */
     #works {
       padding: 100px 6vw;
-      background: #ffffff;
+      background: #f5f9fc;
       position: relative;
     }
     .works-header {
@@ -418,7 +418,7 @@
       box-shadow: 0 12px 40px rgba(26,127,168,0.15);
       height: auto;
       min-height: 260px;
-      background: #ffffff;
+      background: #f5f9fc;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -488,7 +488,7 @@
       box-shadow: 0 6px 20px rgba(90,154,181,0.14);
       transition: transform 0.4s ease;
       object-fit: contain;
-      background: #ffffff;
+      background: #f5f9fc;
       mix-blend-mode: multiply;
     }
     .kindle-tiles .tile-img:hover { transform: scale(1.05); }
@@ -624,6 +624,10 @@
       color: rgba(255,255,255,0.35);
     }
 
+    /* ===== SP-ONLY LINEBREAK & NOWRAP ===== */
+    .sp-only { display: none; }
+    .nowrap   { display: inline-block; }
+
     /* ===== RESPONSIVE ===== */
 
     /* ── スマートフォン（〜720px） ── */
@@ -673,10 +677,13 @@
       }
       .omoi-body p { margin-bottom: 1.4em; }
 
-      /* PCの <br> をスマホでは非表示に */
+      /* PCの <br> をスマホでは非表示に（sp-only は除外） */
       .omoi-body br,
-      .cta-catch br,
+      .cta-catch br:not(.sp-only),
       .kindle-note br { display: none; }
+
+      /* スマホ専用改行を表示 */
+      .sp-only { display: inline; }
 
       /* 3本柱：スマホ余白 */
       .pillar-item {
@@ -806,11 +813,11 @@
   </div>
 </section>
 
-<!-- 雲の境界線（反転）omoi→pillars（白→白） -->
+<!-- 雲の境界線（反転）omoi→pillars（白→水色） -->
 <div class="cloud-divider" style="transform: scaleY(-1); margin-top: -1px;">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,90 L0,45 Q80,12 160,38 Q240,60 320,28 Q400,2 480,32 Q560,58 640,22 Q720,2 800,30 Q880,55 960,24 Q1040,2 1120,34 Q1200,60 1280,32 Q1360,12 1440,40 L1440,90 Z"
-          fill="#dff0fa"/>
+          fill="#f5f9fc"/>
     <path d="M0,90 L0,56 Q100,24 200,48 Q300,68 400,38 Q500,12 600,44 Q700,68 800,40 Q900,16 1000,46 Q1100,70 1200,48 Q1320,24 1440,52 L1440,90 Z"
           fill="#ffffff"/>
   </svg>
@@ -871,13 +878,13 @@
   </div>
 </section>
 
-<!-- 雲の境界線（pillars→works：白→白） -->
+<!-- 雲の境界線（pillars→works：水色→水色） -->
 <div class="cloud-divider">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
           fill="#dff0fa"/>
     <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
-          fill="#ffffff"/>
+          fill="#f5f9fc"/>
   </svg>
 </div>
 
@@ -907,9 +914,9 @@
     <h3 class="work-title">Kindle本の中身の図解実例</h3>
     <p class="work-desc">表紙だけでなく、本の中身も図解で設計。読者が「分かった！」と感じる構成を、ページごとに丁寧に作り込みます。</p>
     <div class="kindle-tiles">
-      <img src="yumezukai1.png" alt="Kindle図解実例1" class="tile-img">
-      <img src="yumezukai2.png" alt="Kindle図解実例2" class="tile-img">
-      <img src="yumezukai3.png" alt="Kindle図解実例3" class="tile-img">
+      <img src="yumezukai_01.png" alt="Kindle図解実例1" class="tile-img">
+      <img src="yumezukai_02.png" alt="Kindle図解実例2" class="tile-img">
+      <img src="yumezukai_03.png" alt="Kindle図解実例3" class="tile-img">
     </div>
   </div>
 
@@ -926,13 +933,13 @@
   </div>
 </section>
 
-<!-- 雲の境界線（works→CTA：白→ブルー） -->
+<!-- 雲の境界線（works→CTA：水色→ブルー） -->
 <div class="cloud-divider">
   <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path d="M0,0 L0,48 Q90,74 180,44 Q270,18 360,52 Q450,80 540,46 Q630,14 720,50 Q810,78 900,46 Q990,14 1080,50 Q1170,78 1260,48 Q1350,20 1440,48 L1440,0 Z"
           fill="var(--blue-nordic)"/>
     <path d="M0,0 L0,32 Q120,64 240,32 Q360,6 480,38 Q600,64 720,30 Q840,6 960,38 Q1080,64 1200,32 Q1320,6 1440,34 L1440,0 Z"
-          fill="#ffffff"/>
+          fill="#f5f9fc"/>
   </svg>
 </div>
 
@@ -940,7 +947,7 @@
 <section id="cta">
   <p class="cta-badge reveal">MAGAZINE</p>
   <p class="cta-catch reveal">
-    私が先に挑戦した記録を、<br>あなたに届けます。
+    私が先に挑戦した記録を、<br class="sp-only"><span class="nowrap">あなたに</span>届けます。
   </p>
   <p class="cta-sub reveal">
     図解・発信・Kindle ── すべてのチャレンジログが読み放題
